@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+
+</style>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-6 order-lg-2">
+      <h1>{{ food.food_title }}</h1>
+      <p><strong>Description:</strong> {{ food.description }}</p>
+      <p><strong>Category:</strong> {{ food.category }}</p>
+      <p><strong>Price:</strong> Rs.{{ food.price }}</p>
+      <p><strong>Status:</strong> {% if food.is_available %}Available{% else %}Not Available{% endif %}</p>
+      <p><strong>Vendor:</strong> {{ food.vendor.vendor_name }}</p>
+      <div class="price-holder">
+        <a href="#" class="decrease_cart" data-id="{{ food.id }}" data-url="{% url 'decrease_cart' food.id %}" style="margin-right: 28px;"><i class="icon-minus text-color"></i></a>
+        <label id="qty-{{food.id}}">0</label>
+        <a href="#" class="add_to_cart" data-id="{{ food.id }}" data-url="{% url 'add_to_cart' food.id %}"><i class="icon-plus4 text-color"></i></a>
+    </div>
+    </div>
+    <div class="col-lg-6 order-lg-1">
+      <img
+        src="{{ food.image.url }}"
+        class="img-fluid"
+        alt="{{ food.food_title }}"
+      />
+    </div>
+  </div>
+</div>
+
+
+ <div class="container py-5">
+  <h2>Recommended Foods</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+    {% for recommendation in recommendations %}
+      {% if recommendation.food_title != food.food_title %}
+        <div class="col">
+          <div class="card">
+            <img src="{{ recommendation.image.url }}" class="card-img-top" alt="{{ recommendation.food_title }}" style="object-fit: cover; height: 200px;">
+            <div class="card-body">
+              <h5 class="card-title">{{ recommendation.food_title }}</h5>
+            </div>
+            <div class="mb-5 d-flex justify-content-around">
+              <h3>{{ recommendation.price }}</h3>
+              <a href="{% url 'food_detail' food_slug=recommendation.slug %}" class="btn btn-danger">View Details</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+

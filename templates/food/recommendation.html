@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+<div>
+  Hello {% if recommendations %} {% for item in recommendations %}
+  <div class="card">{{ item.food_title }}</div>
+  {% endfor %} {% else %}
+  <p>No recommendations available.</p>
+  {% endif %}
+</div>
+{% endblock %}
